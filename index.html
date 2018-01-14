@@ -13,6 +13,21 @@
         $(document).ready(function () {
             var imageMap = {};
             var isPlaying = true;
+
+            var step = function (progress, factor) {
+                factor = factor || 1;
+                if (isPlaying) {
+                    $(document).scrollLeft($(document).scrollLeft() + 1);
+                    paralax($('#cloud1'), 0.11 * factor);
+                    paralax($('#cloud2'), 0.79 * factor);
+                    paralax($('#cloud3'), 0.28 * factor);
+                }
+                if (progress > 0) {
+                    requestAnimationFrame(step);
+                }
+
+            };
+
             var feed = new Instafeed({
                 get: 'user',
                 userId: '4725130256',
@@ -35,16 +50,6 @@
                     } else {
                         setTimeout(function () {
                             $(document).scrollLeft(0);
-                            var step = function () {
-                                if (isPlaying) {
-                                    $(document).scrollLeft($(document).scrollLeft() + 1);
-                                    paralax($('#cloud1'), 0.11);
-                                    paralax($('#cloud2'), 0.79);
-                                    paralax($('#cloud3'), 0.28);
-                                }
-                                requestAnimationFrame(step);
-                            };
-
                             $(".image").each(function (index, element) {
                                 var url = $(element).css("background-image");
                                 var scaleFactor = imageMap[url] || 1;
@@ -68,11 +73,15 @@
             });
             $(document).on("mousewheel", function (e, delta) {
                 $(window).scrollLeft($(window).scrollLeft() + (e.originalEvent.wheelDelta * -0.3));
+                step(-1, 10);
                 e.preventDefault();
             });
         });
 
         function paralax(element, factor) {
+            if (element.position().left < -element.width()) {
+                element.css('left', ("110%"));
+            }
             element.css('left', element.position().left - factor);
         }
     </script>

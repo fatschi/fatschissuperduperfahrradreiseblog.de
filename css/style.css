@@ -1,0 +1,222 @@
+html,
+        body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+
+        }
+
+        @font-face {
+            font-family: '3Dumb';
+            src: url('../font/3Dumb.ttf') format('truetype');
+        }
+
+        body::-webkit-scrollbar {
+            display: none;
+        }
+
+        #wrapper {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            white-space: nowrap;
+        }
+
+        #instafeed {
+            width: 100%;
+            left: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .image {
+            width: 50%;
+            height: 100%;
+            vertical-align: top;
+            background-size: cover;
+            display: inline-block;
+            background-position: center;
+        }
+
+        .char {
+            height: 357px;
+            width: 400px;
+            background-image: url(../img/men_final_small.gif);
+            position: fixed;
+            bottom: 6%;
+            left: 40%;
+            background-size: cover;
+            z-index: 5;
+        }
+
+        #cloud1 {
+            width: 150px;
+            height: 150px;
+            background-image: url(../img/cloud1.gif);
+            position: fixed;
+            background-size: cover;
+            bottom: 45%;
+            left: 60%;
+
+        }
+
+        #cloud2 {
+            width: 300px;
+            height: 159px;
+            background-image: url(../img/cloud2.png);
+            position: fixed;
+            background-size: cover;
+            bottom: 60%;
+            left: 70%;
+        }
+
+        #cloud3 {
+            width: 150px;
+            height: 80px;
+            background-image: url(../img/cloud2.png);
+            position: fixed;
+            background-size: cover;
+            bottom: 80%;
+            left: 40%;
+        }
+
+        .ground {
+            width: 100%;
+            height: 10%;
+            background-image: url(../img/dust.png);
+            position: absolute;
+            bottom: 0%;
+            left: 0%;
+        }
+
+        .bubble {
+            width: 900px;
+            height: 340px;
+            background-image: url(../img/speech-bubble-stick.png);
+            position: fixed;
+            background-size: cover;
+            bottom: 35%;
+            left: -854px;
+            z-index: 3;
+        }
+
+        .playpause {
+            cursor: pointer;
+            width: 69px;
+            height: 69px;
+            background-image: url(../img/pause.png);
+            position: fixed;
+            background-size: initial;
+            bottom: 10%;
+            right: 1%;
+            z-index: 3;
+        }
+
+        .playpause.pause {
+            background-image: url(../img/play.png);   
+        }
+
+        .bubble:hover {
+            transition: left 0.5s linear 0s;
+            left: -300px;
+
+        }
+
+        .caption {
+            width: 320px;
+            height: 250px;
+            background-image: url(../img/pappschild.png);
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position-y: -60px;
+            position: relative;
+            top: -400px;
+            padding-top: 70px;
+            padding-left: 35px;
+            margin: 0 auto;
+            z-index: 3;
+        }
+
+        .caption>a {
+            text-decoration: none;
+            color: #000;
+        }
+
+        .caption>a>div {
+            font-family: '3Dumb';
+            font-size: 18pt;
+            font-weight: bold;
+            margin-right: 30px;
+            white-space: pre-line;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-height: 160px;
+        }
+
+        .image:hover .caption {
+            transition: all 1s ease 0s;
+            top: 0;
+        }
+
+
+        #overlay {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 10;
+            background-color: #F90;
+            background-image: url(../img/face_loading.gif);
+            background-size: 50px;
+            animation: colorchange 3s infinite;
+        }
+
+        @keyframes colorchange
+    {
+      0%   {background-color: red;}
+      25%  {background-color: yellow;}
+      50%  {background-color: blue;}
+      75%  {background-color: green;}
+      100% {background-color: red;}
+    }
+
+        .loading {
+            left: 45%;
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            margin: 300px auto;
+            -webkit-animation: sa-scaleout 1.0s infinite ease-in-out;
+            animation: sa-scaleout 10.0s infinite ease-in-out;
+            -webkit-filter: grayscale(1);
+            filter: grayscale(1);
+        }
+
+
+        @keyframes sa-scaleout {
+            0% {
+                -webkit-transform: scale(0);
+                transform: scale(0);
+            }
+            100% {
+                -webkit-transform: scale(1.0);
+                opacity: 0;
+            }
+        }
+
+        @keyframes sa-scaleout {
+            0% {
+                -webkit-transform: scale(0);
+            }
+            100% {
+                -webkit-transform: scale(50.0);
+                opacity: 0;
+            }
+        }
+
+        .hide {
+            display: none;
+        }

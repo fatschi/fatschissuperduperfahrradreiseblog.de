@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>fatschissuperduperfahrradreiseblog.de</title>
+    <link rel="icon" type="image/png" href="img/favicon_face.png" />
+    <link rel="stylesheet" href="css/style.css">
+    <script type="text/javascript" src="js/instafeed.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha256-k2WSCIexGzOj3Euiig+TlR8gA0EmPjuc79OEeY5L45g="
+        crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var isPlaying = true;
+            var feed = new Instafeed({
+                get: 'user',
+                userId: '4725130256',
+                clientId: '3c3b9a71449345e880fee60b6d2f36e2',
+                accessToken: '4725130256.1677ed0.3eddbc3d1f0e458486c8f9a99f449552',
+                resolution: 'standard_resolution',
+                template: '<div class="image" style="background-image: url({{image}})"><div class="caption"><a target="_blank" href="{{link}}"><div>{{caption}}</div></a></div></div>',
+                sortBy: 'most-recent',
+                limit: 1000,
+                links: true,
+                filter: function (image) { return image.tags.indexOf('fatschissuperduperfahrradreiseblog') >= 0; },
+                after: function () {
+                    if (feed.hasNext()) {
+                        feed.next();
+                    } else {
+                        setTimeout(function () {
+                            $(".ground").width($(document).width());
+                            $(document).scrollLeft(0);
+                            var step = function () {
+                                if (isPlaying) {
+                                    $(document).scrollLeft($(document).scrollLeft() + 1);
+                                    paralax($('#cloud1'), 0.11);
+                                    paralax($('#cloud2'), 0.79);
+                                    paralax($('#cloud3'), 0.28);
+                                }
+                                requestAnimationFrame(step);
+                            };
+                            $('#overlay').addClass('hide');
+                            requestAnimationFrame(step);
+                        }, 0)
+                    }
+                }
+            });
+            feed.run();
+
+            $(".playpause").click(function(){
+                isPlaying = !isPlaying;
+                $(".playpause").toggleClass("pause");
+            });
+            $(document).on("mousewheel", function (e, delta) {
+                $(window).scrollLeft($(window).scrollLeft() + (e.originalEvent.wheelDelta * -0.3));
+                e.preventDefault();
+            });
+        });
+
+        function paralax(element, factor) {
+            element.css('left', element.position().left - factor);
+        }
+    </script>
+</head>
+
+<body>
+    <div id="overlay">
+        <img class="loading" src="img/face_loading.gif">
+    </div>
+    <div id="wrapper">
+        <div class="bubble"></div>
+        <div class="playpause"></div>
+        <div class="ground"></div>
+        <div class="char"></div>
+        <div id="cloud1"></div>
+        <div id="cloud2"></div>
+        <div id="cloud3"></div>
+        <div id="loading"></div>
+        <div id="instafeed"></div>
+    </div>
+</body>
+
+</html>

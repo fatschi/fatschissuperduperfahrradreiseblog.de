@@ -16,12 +16,10 @@
             var feed = new Instafeed({
                 get: 'user',
                 userId: '4725130256',
-                clientId: '3c3b9a71449345e880fee60b6d2f36e2',
                 accessToken: '4725130256.1677ed0.3eddbc3d1f0e458486c8f9a99f449552',
                 resolution: 'standard_resolution',
                 template: '<div class="image" style="background-image: url({{image}})"><a class="captionLink" target="_blank" href="{{link}}"><div class="caption"><div class="captionText">{{caption}}</div></div></a></div>',
                 sortBy: 'most-recent',
-                limit: 1000,
                 links: true,
                 filter: function (image) {
                     var imageFile = image.images.standard_resolution;

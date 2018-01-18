@@ -13,6 +13,7 @@
         $(document).ready(function () {
             var imageMap = {};
             var isPlaying = true;
+            var latitude, longitude;
             var feed = new Instafeed({
                 get: 'user',
                 userId: '4725130256',
@@ -22,10 +23,18 @@
                 sortBy: 'most-recent',
                 links: true,
                 filter: function (image) {
-                    var imageFile = image.images.standard_resolution;
-                    imageMap['url("' + imageFile.url + '")'] = imageFile.width / imageFile.height;
-                    image.caption.text = image.caption.text.replace('#fatschissuperduperfahrradreiseblog', "");
-                    return image.tags.indexOf('fatschissuperduperfahrradreiseblog') >= 0;
+                    var isBlogPicture = image.tags.indexOf('fatschissuperduperfahrradreiseblog') >= 1;
+                    if (isBlogPicture) {
+                        var imageFile = image.images.standard_resolution;
+                        imageMap['url("' + imageFile.url + '")'] = imageFile.width / imageFile.height;
+                        image.caption.text = image.caption.text.replace(
+                            '#fatschissuperduperfahrradreiseblog', "");
+                        if (!latitude && image.location) {
+                            latitude = image.location.latitude;
+                            longitude = image.location.longitude;
+                        }
+                    }
+                    return isBlogPicture;
                 },
                 after: function () {
                     if (feed.hasNext()) {
@@ -42,6 +51,15 @@
                                 }
                                 requestAnimationFrame(step);
                             };
+
+                            var mapDiv = $("<div/>");
+                            mapDiv.addClass("image");
+                            var imageUrl =
+                                'http://maps.googleapis.com/maps/api/staticmap?zoom=6&size=320x640&maptype=hybrid&markers=icon:https://fatschi.github.io/img/favicon_small.png|' +
+                                latitude + ',' + longitude;
+                            mapDiv.css("background-image", "url(" + imageUrl + ")");
+                            $("#instafeed").children(':eq(0)').after(mapDiv);
+                            imageMap['url("' + imageUrl + '")'] = 0.5;
 
                             $(".image").each(function (index, element) {
                                 var url = $(element).css("background-image");

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>fatschissuperduperfahrradreiseblog.de</title>
-    <link rel="icon" type="image/png" href="img/favicon_face.png" />
+    <link rel="icon" type="image/png" href="img/favicon.png" />
     <link rel="stylesheet" href="css/style.css">
     <script type="text/javascript" src="js/instafeed.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha256-k2WSCIexGzOj3Euiig+TlR8gA0EmPjuc79OEeY5L45g="
@@ -28,21 +28,29 @@
 
             };
 
+            var latitude, longitude;
+
             var feed = new Instafeed({
                 get: 'user',
                 userId: '4725130256',
-                clientId: '3c3b9a71449345e880fee60b6d2f36e2',
                 accessToken: '4725130256.1677ed0.3eddbc3d1f0e458486c8f9a99f449552',
                 resolution: 'standard_resolution',
                 template: '<div class="image" style="background-image: url({{image}})"><a class="captionLink" target="_blank" href="{{link}}"><div class="caption"><div class="captionText">{{caption}}</div></div></a></div>',
                 sortBy: 'most-recent',
-                limit: 1000,
                 links: true,
                 filter: function (image) {
-                    var imageFile = image.images.standard_resolution;
-                    imageMap['url("' + imageFile.url + '")'] = imageFile.width / imageFile.height;
-                    image.caption.text = image.caption.text.replace('#fatschissuperduperfahrradreiseblog', "");
-                    return image.tags.indexOf('fatschissuperduperfahrradreiseblog') >= 0;
+                    var isBlogPicture = image.tags.indexOf('fatschissuperduperfahrradreiseblog') >= 1;
+                    if (isBlogPicture) {
+                        var imageFile = image.images.standard_resolution;
+                        imageMap['url("' + imageFile.url + '")'] = imageFile.width / imageFile.height;
+                        image.caption.text = image.caption.text.replace(
+                            '#fatschissuperduperfahrradreiseblog', "");
+                        if (!latitude && image.location) {
+                            latitude = image.location.latitude;
+                            longitude = image.location.longitude;
+                        }
+                    }
+                    return isBlogPicture;
                 },
                 after: function () {
                     if (feed.hasNext()) {
@@ -50,6 +58,16 @@
                     } else {
                         setTimeout(function () {
                             $(document).scrollLeft(0);
+
+                            var mapDiv = $("<div/>");
+                            mapDiv.addClass("image");
+                            var imageUrl =
+                                'http://maps.googleapis.com/maps/api/staticmap?zoom=6&size=320x640&maptype=hybrid&markers=icon:https://fatschi.github.io/img/favicon_small.png|' +
+                                latitude + ',' + longitude;
+                            mapDiv.css("background-image", "url(" + imageUrl + ")");
+                            $("#instafeed").children(':eq(0)').after(mapDiv);
+                            imageMap['url("' + imageUrl + '")'] = 0.5;
+
                             $(".image").each(function (index, element) {
                                 var url = $(element).css("background-image");
                                 var scaleFactor = imageMap[url] || 1;

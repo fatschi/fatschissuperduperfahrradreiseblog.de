@@ -44,7 +44,7 @@ body::-webkit-scrollbar {
     width: 400px;
     background-image: url(../img/men_final_small.gif);
     position: fixed;
-    bottom: 1%;
+    bottom: 2%;
     left: 40%;
     background-size: cover;
     z-index: 5;
@@ -82,26 +82,26 @@ body::-webkit-scrollbar {
 
 .ground {
     width: 100%;
-    height: 3%;
+    height: 7%;
     background-image: url(../img/dust.png);
-    background-size: contain;
+    background-size: initial;
     position: absolute;
     bottom: 0%;
     left: 0%;
 }
 
-.bubble {
+.bubble1 {
     width: 900px;
     height: 340px;
     background-image: url(../img/speech-bubble_empty1.png);
     position: fixed;
     background-size: cover;
-    top: 5%;
+    bottom: 30%;
     left: -854px;
     z-index: 3;
 }
 
-.bubble>.bubbleText {
+.bubble1>.bubbleText {
     font-family: '3Dumb';
     font-size: 20pt;
     font-weight: bold;
@@ -115,7 +115,7 @@ body::-webkit-scrollbar {
     height: 200px;
 }
 
-.bubble:hover {
+.bubble1:hover {
     transition: left 0.5s linear 0s;
     left: -300px;
 }
@@ -126,14 +126,15 @@ body::-webkit-scrollbar {
     background-image: url(../img/speech-bubble_empty2.png);
     position: fixed;
     background-size: cover;
-    bottom: 5%;
-    left: -854px;
+    bottom: 30%;
+    right: -854px;
     z-index: 3;
+    transform: scaleX(-1);
 }
 
 .bubble2:hover {
-    transition: left 0.5s linear 0s;
-    left: -300px;
+    transition: right 0.5s linear 0s;
+    right: -300px;
 }
 
 .bubble2>.bubbleText {
@@ -148,17 +149,18 @@ body::-webkit-scrollbar {
     left: 500px;
     width: 300px;
     height: 200px;
+    transform: scaleX(-1);
 }
 
 .playpause {
     cursor: pointer;
-    width: 69px;
-    height: 69px;
+    width: 32px;
+    height: 32px;
     background-image: url(../img/pause.png);
-    position: absolute;
-    background-size: initial;
-    right: 90px;
-    bottom: 80px;
+    position: fixed;
+    background-size: cover;
+    right: 5px;
+    bottom: 5px;
     z-index: 3;
 }
 

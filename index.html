@@ -113,6 +113,10 @@
             });
             $(document).keydown(function (e) {
                 switch (e.which) {
+                    case 32: // space
+                        isPlaying = !isPlaying;
+                        $(".playpause").toggleClass("pause");
+                        break;
                     case 37: // left
                         $(window).scrollLeft($(window).scrollLeft() - 10);
                         step(-1, -10);
@@ -137,9 +141,8 @@
         <img class="loading" src="img/face_loading.gif">
     </div>
     <div id="wrapper">
-        <div class="bubble">
-            <div class="bubbleText">Du kannst mich mit den Pfeiltasten oder dem Scrollrad bewegen! Pause:</div>
-            <div class="playpause"></div>
+        <div class="bubble1">
+            <div class="bubbleText">Du kannst mich mit den Pfeiltasten oder dem Scrollrad bewegen!</div>
         </div>
         <div class="bubble2">
             <div class="bubbleText">Hi, ich bin's Fatschi. Hier kannst du meine Reisen verfolgen. Viel Spass!</div>
@@ -151,6 +154,7 @@
         <div id="cloud3"></div>
         <div id="loading"></div>
         <div id="instafeed"></div>
+        <div class="playpause"></div>
     </div>
 </body>
 

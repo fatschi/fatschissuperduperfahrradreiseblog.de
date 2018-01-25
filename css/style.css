@@ -114,6 +114,7 @@ body::-webkit-scrollbar {
     width: 300px;
     height: 200px;
 }
+
 .bubble:hover {
     transition: left 0.5s linear 0s;
     left: -300px;
@@ -129,6 +130,7 @@ body::-webkit-scrollbar {
     left: -854px;
     z-index: 3;
 }
+
 .bubble2:hover {
     transition: left 0.5s linear 0s;
     left: -300px;
@@ -155,8 +157,8 @@ body::-webkit-scrollbar {
     background-image: url(../img/pause.png);
     position: absolute;
     background-size: initial;
-    right: 70px;
-    bottom: 70px;
+    right: 90px;
+    bottom: 80px;
     z-index: 3;
 }
 
@@ -184,7 +186,7 @@ body::-webkit-scrollbar {
 }
 
 .caption>.captionText {
-        font-family: '3Dumb';
+    font-family: '3Dumb';
     font-size: 18pt;
     font-weight: bold;
     white-space: pre-line;

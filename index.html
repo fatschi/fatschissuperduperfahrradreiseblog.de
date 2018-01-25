@@ -15,17 +15,25 @@
             var isPlaying = true;
 
             var step = function (progress, factor) {
-                factor = factor || 1;
-                if (isPlaying || factor > 1) {
-                    $(document).scrollLeft($(document).scrollLeft() + 1);
+                if (isPlaying || !isNaN(factor)) {
+                    factor = factor || 1;
                     paralax($('#cloud1'), 0.11 * factor);
                     paralax($('#cloud2'), 0.79 * factor);
                     paralax($('#cloud3'), 0.28 * factor);
                 }
                 if (progress > 0) {
+                    if (isPlaying) {
+                        $(document).scrollLeft($(document).scrollLeft() + 1);
+                    }
                     requestAnimationFrame(step);
                 }
+            };
 
+            var paralax = function paralax(element, factor) {
+                if (element.position().left < -element.width()) {
+                    element.css('left', ("110%"));
+                }
+                element.css('left', element.position().left - factor);
             };
 
             var latitude, longitude;
@@ -39,10 +47,9 @@
                 sortBy: 'most-recent',
                 links: true,
                 filter: function (image) {
-                    var isBlogPicture = image.tags.indexOf('fatschissuperduperfahrradreiseblog') > -1;
-                    console.log(image.tags);
+                    var isBlogPicture = image.tags.indexOf('fatschissuperduperfahrradreiseblog') >
+                        -1;
                     if (isBlogPicture) {
-                        console.log(isBlogPicture)
                         var imageFile = image.images.standard_resolution;
                         imageMap['url("' + imageFile.url + '")'] = imageFile.width / imageFile.height;
                         image.caption.text = image.caption.text.replace(
@@ -101,17 +108,27 @@
             });
             $(document).on("mousewheel", function (e, delta) {
                 $(window).scrollLeft($(window).scrollLeft() + (e.originalEvent.wheelDelta * -0.3));
-                step(-1, 10);
+                step(-1, e.originalEvent.wheelDelta * -0.3);
                 e.preventDefault();
             });
+            $(document).keydown(function (e) {
+                switch (e.which) {
+                    case 37: // left
+                        $(window).scrollLeft($(window).scrollLeft() - 10);
+                        step(-1, -10);
+                        e.preventDefault();
+                        break;
+                    case 39: // right
+                        $(window).scrollLeft($(window).scrollLeft() + 10);
+                        step(-1, 10);
+                        e.preventDefault();
+                        break;
+                    default:
+                        return; // exit this handler for other keys
+                }
+                e.preventDefault(); // prevent the default action (scroll / move caret)
+            });
         });
-
-        function paralax(element, factor) {
-            if (element.position().left < -element.width()) {
-                element.css('left', ("110%"));
-            }
-            element.css('left', element.position().left - factor);
-        }
     </script>
 </head>
 
@@ -121,7 +138,13 @@
     </div>
     <div id="wrapper">
         <div class="bubble">
+            <div class="bubbleText">Klick den Pauseknopf um mich mit den Pfeiltasten zu bewegen! :)</div>
             <div class="playpause"></div>
+        </div>
+        <div class="bubble2">
+            <div class="bubbleText">Hallo, ich bin Fatschi. Hier kannst du meine Reisen verfolgen. Auf der Karte siehst du wo wir gerade sind. Viel
+                Spaß!
+            </div>
         </div>
         <div class="ground"></div>
         <div class="char"></div>

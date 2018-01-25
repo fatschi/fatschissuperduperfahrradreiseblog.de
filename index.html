@@ -13,7 +13,23 @@
         $(document).ready(function () {
             var imageMap = {};
             var isPlaying = true;
+
+            var step = function (progress, factor) {
+                factor = factor || 1;
+                if (isPlaying || factor > 1) {
+                    $(document).scrollLeft($(document).scrollLeft() + 1);
+                    paralax($('#cloud1'), 0.11 * factor);
+                    paralax($('#cloud2'), 0.79 * factor);
+                    paralax($('#cloud3'), 0.28 * factor);
+                }
+                if (progress > 0) {
+                    requestAnimationFrame(step);
+                }
+
+            };
+
             var latitude, longitude;
+
             var feed = new Instafeed({
                 get: 'user',
                 userId: '4725130256',
@@ -23,8 +39,10 @@
                 sortBy: 'most-recent',
                 links: true,
                 filter: function (image) {
-                    var isBlogPicture = image.tags.indexOf('fatschissuperduperfahrradreiseblog') >= 1;
+                    var isBlogPicture = image.tags.indexOf('fatschissuperduperfahrradreiseblog') > -1;
+                    console.log(image.tags);
                     if (isBlogPicture) {
+                        console.log(isBlogPicture)
                         var imageFile = image.images.standard_resolution;
                         imageMap['url("' + imageFile.url + '")'] = imageFile.width / imageFile.height;
                         image.caption.text = image.caption.text.replace(
@@ -37,34 +55,33 @@
                     return isBlogPicture;
                 },
                 after: function () {
+                    if (location) {
+                        $("#instafeed").children(':eq(0)').ready(
+                            function () {
+                                if (!$("#map").length) {
+                                    var mapDiv = $("<div id='map'/>");
+                                    mapDiv.addClass("image");
+                                    var imageUrl =
+                                        'http://maps.googleapis.com/maps/api/staticmap?zoom=6&size=320x640&maptype=terrain&markers=icon:https://fatschi.github.io/img/favicon_small.png|' +
+                                        latitude + ',' + longitude;
+                                    mapDiv.css("background-image", "url(" + imageUrl + ")");
+                                    $("#instafeed").children(':eq(0)').after(mapDiv);
+                                    imageMap['url("' + imageUrl + '")'] = 0.5;
+                                }
+                            }
+                        );
+                    }
+
                     if (feed.hasNext()) {
                         feed.next();
                     } else {
                         setTimeout(function () {
                             $(document).scrollLeft(0);
-                            var step = function () {
-                                if (isPlaying) {
-                                    $(document).scrollLeft($(document).scrollLeft() + 1);
-                                    paralax($('#cloud1'), 0.11);
-                                    paralax($('#cloud2'), 0.79);
-                                    paralax($('#cloud3'), 0.28);
-                                }
-                                requestAnimationFrame(step);
-                            };
-
-                            var mapDiv = $("<div/>");
-                            mapDiv.addClass("image");
-                            var imageUrl =
-                                'http://maps.googleapis.com/maps/api/staticmap?zoom=6&size=320x640&maptype=hybrid&markers=icon:https://fatschi.github.io/img/favicon_small.png|' +
-                                latitude + ',' + longitude;
-                            mapDiv.css("background-image", "url(" + imageUrl + ")");
-                            $("#instafeed").children(':eq(0)').after(mapDiv);
-                            imageMap['url("' + imageUrl + '")'] = 0.5;
 
                             $(".image").each(function (index, element) {
                                 var url = $(element).css("background-image");
                                 var scaleFactor = imageMap[url] || 1;
-                                $(element).width($(element).width() * scaleFactor);
+                                $(element).width(50 * scaleFactor + "%");
                             });
 
                             $(".ground").width($(document).width());
@@ -84,11 +101,15 @@
             });
             $(document).on("mousewheel", function (e, delta) {
                 $(window).scrollLeft($(window).scrollLeft() + (e.originalEvent.wheelDelta * -0.3));
+                step(-1, 10);
                 e.preventDefault();
             });
         });
 
         function paralax(element, factor) {
+            if (element.position().left < -element.width()) {
+                element.css('left', ("110%"));
+            }
             element.css('left', element.position().left - factor);
         }
     </script>

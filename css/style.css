@@ -37,7 +37,7 @@ body::-webkit-scrollbar {
     width: 400px;
     background-image: url(../img/men_final_small.gif);
     position: fixed;
-    bottom: 6%;
+    bottom: 1%;
     left: 40%;
     background-size: cover;
     z-index: 5;
@@ -48,7 +48,7 @@ body::-webkit-scrollbar {
     background-image: url(../img/cloud1.gif);
     position: fixed;
     background-size: cover;
-    bottom: 45%;
+    bottom: 40%;
     left: 60%;
 }
 #cloud2 {
@@ -71,8 +71,9 @@ body::-webkit-scrollbar {
 }
 .ground {
     width: 100%;
-    height: 10%;
+    height: 3%;
     background-image: url(../img/dust.png);
+    background-size: contain;
     position: absolute;
     bottom: 0%;
     left: 0%;
@@ -115,7 +116,7 @@ body::-webkit-scrollbar {
     position: relative;
     top: -400px;
     padding-top: 70px;
-    padding-left: 35px;
+    padding-left: 40px;
     margin: 0 auto;
     z-index: 3;
 }
@@ -127,7 +128,7 @@ body::-webkit-scrollbar {
     font-family: '3Dumb';
     font-size: 18pt;
     font-weight: bold;
-    margin-right: 30px;
+    margin-right: 35px;
     white-space: pre-line;
     overflow: hidden;
     text-overflow: ellipsis;
